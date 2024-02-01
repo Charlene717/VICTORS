@@ -1,7 +1,3 @@
-## Load Packages
-if(!require("pROC")) install.packages("pROC"); library(pROC)
-if(!require("ggplot2")) install.packages("ggplot2"); library(ggplot2)
-if(!require("cowplot")) install.packages("cowplot"); library(cowplot)
 
 # source("Set_plot_color.R")  # source("Set_pbmc3k_plot.R")
 
@@ -9,6 +5,13 @@ if(!require("cowplot")) install.packages("cowplot"); library(cowplot)
 roc_analysis <- function(seurat_obj, Set_ACT = "Actual Cell Type",
                          Set_Anno = "Annotation", Set_Col = " Score",
                          DefaultThr = 0.5) {
+
+  ## Load Packages
+  if(!require("pROC")) install.packages("pROC"); library(pROC)
+  if(!require("ggplot2")) install.packages("ggplot2"); library(ggplot2)
+  if(!require("cowplot")) install.packages("cowplot"); library(cowplot)
+
+
   cell_types <- unique(seurat_obj@meta.data[[Set_Anno]])
   results_ROC_list <- list()
   metadata_sub <- seurat_obj@meta.data

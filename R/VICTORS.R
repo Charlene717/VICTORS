@@ -15,6 +15,13 @@ VICTORS <- function(seuratObj_Query, seuratObj_Ref,
                     ActualCellTypeColumn = "Actual_Cell_Type",
                     AnnotCellTypeColumn = "Annotation",
                     Add_nROC = FALSE) {
+
+  if(!require("pbapply")) install.packages("pbapply"); library(pbapply)
+  if(!require("caret")) install.packages("caret"); library(caret)
+
+  if (!requireNamespace("remotes", quietly = TRUE)) {install.packages("remotes")}
+  if(!require("harmony")) remotes::install_github("immunogenomics/harmony"); library(harmony)
+
   # source("FUN_VICTORSPrep.R")
 
   #### Unified column name ####
