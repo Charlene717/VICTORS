@@ -12,6 +12,8 @@ VICTORS is a package designed for specific analyses. If it's not present in your
 ```{r, eval = FALSE}
 if(!require("VICTORS")) install_github("Charlene717/VICTORS"); library(VICTORS)
 ```
+<br> 
+<br>
 
 # Operational Procedure
 After installing the necessary packages, you will need to load additional packages, load a demo file, and perform operations with VICTORS as follows:
@@ -31,7 +33,7 @@ load("Path/to/Demo.RData")
 ```
 
 ## Set Query and Reference Variables:
-Configure the VICTORS function by specifying your sample and reference Seurat objects, as well as the columns for the actual cell type and annotation.
+Configure the VICTORS function by specifying your query and reference Seurat objects, as well as the columns for the actual cell type and annotation.
 
 ```{r, eval = FALSE}
 VICTORS.lt <- VICTORS(seuratObject_Query, seuratObject_Ref,
@@ -41,11 +43,16 @@ VICTORS.lt <- VICTORS(seuratObject_Query, seuratObject_Ref,
 ```
 
 ## Update Query and Reference:
-After running the diagnostic with VICTORS, update your query and reference objects with the results stored in the Seurat object's metadata and misc. 
+After running VICTORS, please update your Seurat objects as follows:
 
+Query Object: Results are in the query's meta.data. Update with
 ```{r, eval = FALSE}
-seuratObject_Query <- VICTORS.lt$Sample
+seuratObject_Query <- VICTORS.lt$Query
+```
+Reference Object: Model stored in the reference's misc. Update with 
+```{r, eval = FALSE}
 seuratObject_Ref <- VICTORS.lt$Reference
 ```
+
 
 
