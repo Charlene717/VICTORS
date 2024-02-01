@@ -5,7 +5,7 @@
 \title{This function allows you to diagnose cell annotation labels.}
 \usage{
 VICTORS(
-  seuratObj_Samp,
+  seuratObj_Query,
   seuratObj_Ref,
   ActualCellTypeColumn = "Actual_Cell_Type",
   AnnotCellTypeColumn = "Annotation",
@@ -13,12 +13,18 @@ VICTORS(
 )
 }
 \arguments{
-\item{x}{A numeric vector.}
+\item{seuratObj_Query}{Seurat Object of Query.}
+
+\item{seuratObj_Ref}{Seurat Object of Reference.}
+
+\item{ActualCellTypeColumn}{Column name of the actual cell type in meta.data.}
+
+\item{AnnotCellTypeColumn}{Column name of the cell type annotation in meta.data.}
 }
 \description{
 This function allows you to diagnose cell annotation labels.
 }
 \examples{
-VICTORS(seuratObj_Samp, seuratObj_Ref, ActualCellTypeColumn = "Actual_Cell_Type", AnnotCellTypeColumn = "Annotation", Add_nROC = FALSE)
+VICTORS(seuratObj_Query, seuratObj_Ref, ActualCellTypeColumn = "Actual_Cell_Type", AnnotCellTypeColumn = "Annotation", Add_nROC = FALSE)
 }
-\keyword{scRNA}
+\keyword{scRNA-seq}

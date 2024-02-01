@@ -2,13 +2,16 @@
 ############--------------------------------------------------------------------#############' A Self-made Median Function
 #'
 #' This function allows you to diagnose cell annotation labels.
-#' @param x A numeric vector.
-#' @keywords scRNA
+#' @param seuratObj_Query Seurat Object of Query.
+#' @param seuratObj_Ref Seurat Object of Reference.
+#' @param ActualCellTypeColumn Column name of the actual cell type in meta.data.
+#' @param AnnotCellTypeColumn Column name of the cell type annotation in meta.data.
+#' @keywords scRNA-seq
 #' @export
 #' @examples
-#' VICTORS(seuratObj_Samp, seuratObj_Ref, ActualCellTypeColumn = "Actual_Cell_Type", AnnotCellTypeColumn = "Annotation", Add_nROC = FALSE)
+#' VICTORS(seuratObj_Query, seuratObj_Ref, ActualCellTypeColumn = "Actual_Cell_Type", AnnotCellTypeColumn = "Annotation", Add_nROC = FALSE)
 
-VICTORS <- function(seuratObj_Samp, seuratObj_Ref,
+VICTORS <- function(seuratObj_Query, seuratObj_Ref,
                     ActualCellTypeColumn = "Actual_Cell_Type",
                     AnnotCellTypeColumn = "Annotation",
                     Add_nROC = FALSE) {
@@ -16,7 +19,7 @@ VICTORS <- function(seuratObj_Samp, seuratObj_Ref,
 
   #### Unified column name ####
   seuratObj_Ref[["Actual_Cell_Type"]] <- seuratObj_Ref[[ActualCellTypeColumn]]
-  # seuratObj_Samp[["Annotation"]] <- seuratObj_Samp[[AnnotCellTypeColumn]]
+  # seuratObj_Query[["Annotation"]] <- seuratObj_Query[[AnnotCellTypeColumn]]
 
   #### VICTORSPrep score ####
   if(is.null(seuratObj_Ref@misc[["VICTORS"]])) {
@@ -32,9 +35,9 @@ VICTORS <- function(seuratObj_Samp, seuratObj_Ref,
     seuratObj_Ref <- VICTORSPrep(seuratObj_Ref, seuratObj_Ref) #, threshold = Set_scPredict_Thr)
   }
 
-  ## Sample
-  if(!"VICTORS_max" %in% colnames(seuratObj_Samp@meta.data)) {
-    seuratObj_Samp <- VICTORSPrep(seuratObj_Samp, seuratObj_Ref) #, threshold = Set_scPredict_Thr)
+  ## Query
+  if(!"VICTORS_max" %in% colnames(seuratObj_Query@meta.data)) {
+    seuratObj_Query <- VICTORSPrep(seuratObj_Query, seuratObj_Ref) #, threshold = Set_scPredict_Thr)
   }
 
   #### Modify column names ####
@@ -48,7 +51,7 @@ VICTORS <- function(seuratObj_Samp, seuratObj_Ref,
   }
 
   seuratObj_Ref = modify_metadata_cols_VICTORS(seuratObj_Ref)
-  seuratObj_Samp = modify_metadata_cols_VICTORS(seuratObj_Samp)
+  seuratObj_Query = modify_metadata_cols_VICTORS(seuratObj_Query)
 
   #### Ref: Optimization threshold ####
   # source("FUN_ROC.R")
@@ -62,7 +65,7 @@ VICTORS <- function(seuratObj_Samp, seuratObj_Ref,
 
   #### VICTORS Diagnosis ####
   score_type <- "VICTORS"
-  metadata <- seuratObj_Samp@meta.data
+  metadata <- seuratObj_Query@meta.data
   metadata_col <- paste0(AnnotCellTypeColumn, "_", score_type, "Score")
 
   ## Calculate the score and update metadata
@@ -90,10 +93,10 @@ VICTORS <- function(seuratObj_Samp, seuratObj_Ref,
 
   metadata[[paste0("Diag_", score_type,"_", AnnotCellTypeColumn,  "_StatROC")]] <- ifelse(metadata[[metadata_col]] < thresholds, "F", "T")
 
-  seuratObj_Samp@meta.data <- metadata
+  seuratObj_Query@meta.data <- metadata
 
   #### Export ####
-  Output.lt <- list(Sample = seuratObj_Samp, Reference = seuratObj_Ref)
+  Output.lt <- list(Query = seuratObj_Query, Reference = seuratObj_Ref)
   return(Output.lt)
 }
 
