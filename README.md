@@ -12,7 +12,7 @@ VICTORS is a package designed for specific analyses. If it's not present in your
 ```{r, eval = FALSE}
 if(!require("VICTORS")) install_github("Charlene717/VICTORS"); library(VICTORS)
 ```
-<br> 
+
 <br>
 
 # Operational Procedure
@@ -45,11 +45,13 @@ VICTORS.lt <- VICTORS(seuratObject_Query, seuratObject_Ref,
 ## Update Query and Reference:
 After running VICTORS, please update your Seurat objects as follows:
 
-Query Object: Results are in the query's meta.data. Update with
+### Query Object: 
+Results are in the query's meta.data. Update with
 ```{r, eval = FALSE}
 seuratObject_Query <- VICTORS.lt$Query
 ```
-Reference Object: Model stored in the reference's misc. Update with 
+### Reference Object: 
+Model stored in the reference's misc. Update with 
 ```{r, eval = FALSE}
 seuratObject_Ref <- VICTORS.lt$Reference
 ```
